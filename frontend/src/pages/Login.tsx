@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { login } from '../api'
 import { useAuth } from '../context/AuthContext'
+import AppLogo from '../components/AppLogo'
 
 export default function Login() {
   const navigate = useNavigate()
@@ -29,14 +30,8 @@ export default function Login() {
     <div className="min-h-screen bg-slate-50 flex items-center justify-center px-4">
       <div className="w-full max-w-sm">
         {/* Logo */}
-        <div className="flex items-center justify-center gap-2 mb-8">
-          <div className="w-9 h-9 bg-indigo-600 rounded-xl flex items-center justify-center">
-            <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M4 7v10c0 2 1 3 3 3h10c2 0 3-1 3-3V7c0-2-1-3-3-3H7C5 4 4 5 4 7z" />
-              <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6M9 16h4" />
-            </svg>
-          </div>
-          <span className="text-xl font-semibold text-slate-900">DB Agent</span>
+        <div className="flex justify-center mb-8">
+          <Link to="/"><AppLogo size={40} textClassName="text-xl text-slate-900" /></Link>
         </div>
 
         <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-8">
