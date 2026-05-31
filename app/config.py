@@ -17,6 +17,11 @@ class Settings(BaseSettings):
     port: int = 8000
     reload: bool = True
     max_query_rows: int = 500
+    # PostgreSQL connection string — when set, all agent/user data is stored in PG
+    # instead of the local filesystem. Required for Heroku (ephemeral filesystem).
+    database_url: str = ""
+    # Comma-separated list of allowed CORS origins for the API.
+    allowed_origins: str = "http://localhost:5173,http://127.0.0.1:5173"
 
 
 settings = Settings()

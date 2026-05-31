@@ -1,4 +1,5 @@
 import os
+from contextlib import asynccontextmanager
 from pathlib import Path
 
 from fastapi import FastAPI, Request
@@ -9,16 +10,28 @@ from fastapi.staticfiles import StaticFiles
 from app.api.auth import router as auth_router
 from app.api.onboarding import router as onboarding_router
 from app.api.chat import router as chat_router
+from app.config import settings
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    if settings.database_url:
+        from app.storage.pg import init_db
+        init_db()
+    yield
+
 
 app = FastAPI(
     title="DB Agent",
     description="Natural language query agent for SQL and MongoDB databases",
     version="0.1.0",
+    lifespan=lifespan,
 )
 
+_origins = [o.strip() for o in settings.allowed_origins.split(",") if o.strip()]
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173", "http://127.0.0.1:5173"],
+    allow_origins=_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
