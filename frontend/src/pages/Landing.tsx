@@ -1,52 +1,14 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 
-// ─── Database logos as inline SVG ──────────────────────────────────────────
+// ─── Database logos ──────────────────────────────────────────────────────────
 
-function MongoDBLogo() {
-  return (
-    <svg viewBox="0 0 48 48" className="w-10 h-10" fill="none">
-      <path d="M24 4C24 4 15 16 15 26C15 32.627 18.686 38 24 40C29.314 38 33 32.627 33 26C33 16 24 4 24 4Z" fill="#47A248"/>
-      <path d="M24 40L24 44" stroke="#47A248" strokeWidth="3" strokeLinecap="round"/>
-      <ellipse cx="24" cy="26" rx="3" ry="4" fill="#B8F0B2" opacity="0.5"/>
-    </svg>
-  )
-}
-
-function PostgreSQLLogo() {
-  return (
-    <svg viewBox="0 0 48 48" className="w-10 h-10" fill="none">
-      <ellipse cx="24" cy="14" rx="12" ry="8" fill="#336791"/>
-      <rect x="12" y="14" width="3" height="16" rx="1.5" fill="#336791"/>
-      <rect x="33" y="14" width="3" height="12" rx="1.5" fill="#336791"/>
-      <path d="M15 30 Q24 36 33 26" stroke="#336791" strokeWidth="3" fill="none" strokeLinecap="round"/>
-      <ellipse cx="24" cy="14" rx="10" ry="6" fill="#5B9BD5"/>
-      <circle cx="20" cy="12" r="1.5" fill="white" opacity="0.6"/>
-    </svg>
-  )
-}
-
-function MySQLLogo() {
-  return (
-    <svg viewBox="0 0 48 48" className="w-10 h-10" fill="none">
-      <path d="M6 32 L6 16 L10 16 L16 26 L22 16 L26 16 L26 32 L22 32 L22 22 L16 32 L10 22 L10 32 Z" fill="#00758F"/>
-      <path d="M30 16 L30 32 L34 32 L34 24 L42 32 L42 16 L38 16 L38 24 L30 16 Z" fill="#F29111"/>
-      <path d="M6 36 Q24 44 42 36" stroke="#F29111" strokeWidth="2" fill="none" strokeLinecap="round" opacity="0.6"/>
-    </svg>
-  )
-}
-
-function SQLiteLogo() {
-  return (
-    <svg viewBox="0 0 48 48" className="w-10 h-10" fill="none">
-      <ellipse cx="24" cy="12" rx="14" ry="6" fill="#044A64"/>
-      <rect x="10" y="12" width="28" height="20" fill="#0D6A8B"/>
-      <ellipse cx="24" cy="32" rx="14" ry="6" fill="#044A64"/>
-      <ellipse cx="24" cy="12" rx="12" ry="4" fill="#1590BB" opacity="0.7"/>
-      <ellipse cx="24" cy="22" rx="12" ry="4" fill="#1590BB" opacity="0.4"/>
-    </svg>
-  )
-}
+const DB_LOGOS = [
+  { src: '/mongodb-original.svg',    name: 'MongoDB',    color: 'bg-green-50  border-green-200',  text: 'text-green-800'  },
+  { src: '/postgresql-original.svg', name: 'PostgreSQL', color: 'bg-blue-50   border-blue-200',   text: 'text-blue-800'   },
+  { src: '/mysql-original.svg',      name: 'MySQL',      color: 'bg-orange-50 border-orange-200', text: 'text-orange-800' },
+  { src: '/sqlite-original.svg',     name: 'SQLite',     color: 'bg-teal-50   border-teal-200',   text: 'text-teal-800'   },
+]
 
 // ─── Feature icons ──────────────────────────────────────────────────────────
 
@@ -289,14 +251,9 @@ export default function Landing() {
             Works with your favorite databases
           </p>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            {[
-              { Logo: MongoDBLogo, name: 'MongoDB',    color: 'bg-green-50  border-green-200',  text: 'text-green-800'  },
-              { Logo: PostgreSQLLogo, name: 'PostgreSQL', color: 'bg-blue-50   border-blue-200',   text: 'text-blue-800'   },
-              { Logo: MySQLLogo,    name: 'MySQL',      color: 'bg-orange-50 border-orange-200', text: 'text-orange-800' },
-              { Logo: SQLiteLogo,   name: 'SQLite',     color: 'bg-teal-50   border-teal-200',   text: 'text-teal-800'   },
-            ].map(({ Logo, name, color, text }) => (
+            {DB_LOGOS.map(({ src, name, color, text }) => (
               <div key={name} className={`flex flex-col items-center gap-3 p-6 rounded-2xl border ${color} transition-transform hover:-translate-y-0.5`}>
-                <Logo />
+                <img src={src} alt={name} className="w-12 h-12 object-contain" />
                 <span className={`font-semibold text-sm ${text}`}>{name}</span>
               </div>
             ))}
