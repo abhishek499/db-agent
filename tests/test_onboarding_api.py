@@ -177,5 +177,5 @@ def test_finalize_user_scoped_without_column_returns_400(sqlite_uri, tmp_agents_
 def tmp_agents_dir(tmp_path, monkeypatch):
     from app.config import settings
     monkeypatch.setattr(settings, "agents_dir", str(tmp_path))
-    (tmp_path / "drafts").mkdir()
+    (tmp_path / "drafts").mkdir(exist_ok=True)
     return tmp_path

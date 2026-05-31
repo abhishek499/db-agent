@@ -30,7 +30,7 @@ client = TestClient(app, raise_server_exceptions=False)
 def tmp_agents_dir(tmp_path, monkeypatch):
     from app.config import settings
     monkeypatch.setattr(settings, "agents_dir", str(tmp_path))
-    (tmp_path / "drafts").mkdir()
+    (tmp_path / "drafts").mkdir(exist_ok=True)
     return tmp_path
 
 
