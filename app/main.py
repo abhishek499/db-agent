@@ -1,6 +1,8 @@
-import os
+import logging
 from contextlib import asynccontextmanager
 from pathlib import Path
+
+logger = logging.getLogger(__name__)
 
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
@@ -16,8 +18,12 @@ from app.config import settings
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     if settings.database_url:
+        logger.info("Storage backend: PostgreSQL (DATABASE_URL is set)")
         from app.storage.pg import init_db
         init_db()
+        logger.info("PostgreSQL tables verified")
+    else:
+        logger.warning("Storage backend: file-based (DATABASE_URL is not set)")
     yield
 
 
@@ -60,7 +66,11 @@ async def value_error_handler(request: Request, exc: ValueError):
 
 @app.get("/health")
 async def health():
-    return {"status": "ok", "version": "0.1.0"}
+    return {
+        "status": "ok",
+        "version": "0.1.0",
+        "storage": "postgresql" if settings.database_url else "file",
+    }
 
 
 # Serve the built React frontend (production mode)
