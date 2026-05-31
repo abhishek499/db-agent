@@ -80,6 +80,10 @@ if _DIST.is_dir():
 
     @app.get("/{full_path:path}", include_in_schema=False)
     async def spa_fallback(full_path: str):
-        """Catch-all that returns index.html so React Router handles navigation."""
-        index = _DIST / "index.html"
-        return FileResponse(str(index))
+        """Serve a static file if it exists in dist/, otherwise return index.html
+        so React Router can handle client-side navigation."""
+        candidate = (_DIST / full_path).resolve()
+        # Security: only serve files that are inside _DIST
+        if candidate.is_file() and str(candidate).startswith(str(_DIST.resolve())):
+            return FileResponse(str(candidate))
+        return FileResponse(str(_DIST / "index.html"))
